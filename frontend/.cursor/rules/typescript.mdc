@@ -1,0 +1,38 @@
+---
+description: TypeScript tipovi, imenovanje i bezbednost tipova
+globs: **/*.ts,**/*.tsx
+alwaysApply: false
+---
+
+# TypeScript
+
+## Opšte
+
+- Nikada `any`. Za nepoznat oblik koristi `unknown` i suzi tip.
+- `strict` je uključen zajedno sa `noUncheckedIndexedAccess`, `noUnusedLocals`,
+  `noUnusedParameters` i `erasableSyntaxOnly`.
+- `@ts-ignore` je zabranjen. `@ts-expect-error` je dozvoljen samo uz komentar u
+  istom redu koji objašnjava zašto je neophodan.
+
+## Tipovi
+
+- `interface` za oblike objekata, `type` za unije, preseke i utility tipove.
+- `import type` za importe koji se koriste samo kao tip.
+- Umesto `enum` koristi union literal ili `as const` objekat — `erasableSyntaxOnly`
+  zabranjuje TS `enum`.
+- Kada Zod šema postoji, tip se izvodi iz nje (`z.infer`), ne piše se ručno.
+- Ne dupliciraj tipove — ponovo koristi postojeće.
+- Preferiraj inferenciju kad tip ostaje jasan.
+- Ne koristi `React.FC`; tipiziraj props kao parametar funkcije.
+
+## Imenovanje
+
+- Interfejsi i tipovi: PascalCase, bez prefiksa `I`.
+- Generici imaju smislena imena: `TData`, `TError`, `TSchema`.
+
+## Bezbednost tipova
+
+- Optional chaining (`?.`) i nullish coalescing (`??`).
+- Non-null assertion (`!`) izbegavaj; ako je neizbežan, objasni komentarom.
+- Sužavaj tipove kroz `typeof`, `in` i type guard-ove umesto castovanja.
+- `satisfies` kad proveravaš oblik bez gubitka inferencije.

@@ -1,0 +1,4 @@
+# Normalizuje line endings na LF u repozitorijumu, nezavisno od OS-a.
+* text=auto eol=lf
+
+bun.lock -diff linguist-generated

@@ -1,0 +1,8 @@
+.next
+out
+build
+node_modules
+bun.lock
+next-env.d.ts
+public
+.cursor/plans

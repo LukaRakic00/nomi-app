@@ -1,0 +1,35 @@
+---
+description: Conventional Commits i format pull request-a. Koristi kada je tema commit, branch ili PR.
+alwaysApply: false
+---
+
+# Git
+
+## Commit poruke
+
+Prati Conventional Commits. Subject je na **engleskom**, u imperativu, bez tačke
+na kraju.
+
+Tipovi: `feat`, `fix`, `refactor`, `style`, `docs`, `test`, `chore`.
+
+```
+feat(auth): add JWT refresh token rotation
+fix(forms): map server field errors to form state
+chore(deps): pin next to 16.3.3
+```
+
+Scope je opcion, ali ako postoji odgovara folderu ili domenu.
+
+## Pull request
+
+Generiši:
+
+- jasan naslov u istom formatu kao commit
+- kratak opis zašto je izmena potrebna
+- listu izmena
+- uputstva za testiranje
+
+## Pre commit-a
+
+Uslovi iz `core.mdc` („Posao je gotov kada") moraju biti zadovoljeni. Ne commit-uj
+`.env` fajlove sa stvarnim vrednostima — samo `.env.example`.

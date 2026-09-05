@@ -1,0 +1,45 @@
+---
+description: Next.js App Router konvencije, Server/Client granica, metadata i performanse
+alwaysApply: true
+---
+
+# Next.js
+
+**Pre pisanja Next.js koda pročitaj relevantan vodič u `node_modules/next/dist/docs/`.**
+Next 16 ima prelomne izmene u odnosu na starije verzije — vidi `nextjs-16.mdc`.
+Verzija je pinovana u `package.json`; ne nadograđuj major bez saglasnosti.
+
+## Server vs Client
+
+- Server Components su podrazumevani.
+- `"use client"` samo za event handlere, React hook-ove, browser API-je i animacije.
+- Pre dodavanja `"use client"` pitaj: može li ovo na serveru?
+- Ne pretvaraj celu stranicu u Client Component zbog jednog interaktivnog dela —
+  izdvoj taj deo u sopstvenu komponentu.
+
+## Data fetching
+
+- Fetch-uj na serveru kad je moguće; keširaj kad ima smisla.
+- HTTP logika živi u servisu; Server Component **poziva servis**, ne `fetch` direktno.
+- Preferiraj Server Actions umesto Route Handlera kad ne postoji eksterni potrošač.
+
+## Stanja i metadata
+
+Ruta koja učitava podatke ima `loading.tsx` sa `Skeleton` komponentama — nikad
+prazan ekran. Projekat ima `error.tsx`, `global-error.tsx` i `not-found.tsx`
+(detalji u `errors.mdc`).
+
+Svaka stranica izvozi `metadata` ili `generateMetadata`. Vrednosti dolaze iz
+`config/site.ts`. `title` ne sadrži naziv sajta — dodaje ga template iz root layout-a.
+
+## Slike, fontovi i bundle
+
+- Isključivo `next/image`; `priority` samo za sadržaj iznad preloma.
+- Isključivo `next/font`; nikada ručni Google Fonts link.
+- `next/dynamic` za teške biblioteke: chart-ovi, editori, mape.
+
+## Eksporti
+
+Named export svuda. Default export **samo** u Next.js specijalnim fajlovima
+(`page`, `layout`, `error`, `loading`, `not-found`, `route`, `sitemap`, `robots`,
+`opengraph-image`, `proxy`).

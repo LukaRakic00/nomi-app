@@ -1,0 +1,45 @@
+---
+description: React komponente, hook-ovi, stanje i performanse renderovanja
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# React
+
+## Komponente
+
+- Isključivo funkcionalne komponente.
+- Jedna komponenta = jedna odgovornost. Ako raste — podeli je.
+- Zabranjen je „God Component" koji radi UI, fetch, validaciju i poslovnu logiku.
+- Komponente primaju podatke kroz props i emituju kroz callback funkcije.
+- Named export svuda; default export samo u Next.js specijalnim fajlovima.
+
+## Šta ne ide u komponentu
+
+- API pozivi i `fetch` — to je posao servisa
+- poslovna logika i složena validacija
+- teške računice u renderu
+
+Izdvoj: API i poslovnu logiku u servise, stateful logiku u hook-ove, čiste
+transformacije u `lib/`.
+
+## Hook-ovi
+
+- Custom hook za ponovo upotrebljivu stateful logiku.
+- Pre pisanja novog proveri da li sličan već postoji.
+- Hook radi jednu stvar. Ne pravi „God Hook".
+- Naziv fajla je `use-<naziv>.ts`.
+
+## Stanje
+
+- Drži stanje blizu mesta gde se koristi.
+- Preferiraj izvedeno stanje umesto sinhronizacije više `useState`-ova.
+- Izbegavaj nepotreban `useEffect` — izvedi vrednost umesto da je dupliraš.
+- Podiži stanje samo kad je deljenje zaista potrebno; izbegavaj prop drilling.
+- Za stanje koje treba da preživi refresh ili deljenje linka koristi URL
+  (`searchParams`) umesto lokalnog stanja.
+
+## Performanse
+
+- `useMemo`, `useCallback` i `memo` samo kada postoji merljiv razlog.
+- Ne prosleđuj nove objekte ni funkcije kao props bez potrebe.

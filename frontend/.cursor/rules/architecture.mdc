@@ -1,0 +1,47 @@
+---
+description: Struktura foldera, slojevi, smer zavisnosti i granica prema backendu
+alwaysApply: true
+---
+
+# Arhitektura
+
+Starter je **backend-agnostičan i progresivno proširiv**.
+
+Tri sloja: **Core** (`app/`, `components/`, `lib/`, `config/`) postoji uvek;
+**opcioni API** (`lib/http.ts`, `services/`) samo ako projekat ima backend;
+**projektno** (auth, `features/`, state biblioteke, testovi) po potrebi.
+
+Core nikada ne uvozi iz opcionog API sloja. Brisanje `lib/http.ts` mora ostaviti
+aplikaciju koja se builduje.
+
+## Folderi — jedini izvor istine
+
+| Folder | Sadržaj |
+| --- | --- |
+| `app/` | rute, layout-i, metadata, stanja; stranice su lagane |
+| `components/ui/` | isključivo shadcn primitivi iz CLI-ja |
+| `components/` | deljene komponente (koristi ih više ruta ili feature-a) |
+| `config/` | konfiguracija koja se menja po projektu (`site.ts`) |
+| `lib/` | infrastruktura, klijenti, greške, env, čiste funkcije |
+| `docs/` | dokumentacija arhitekture i konvencija |
+
+**Ne postoje** `utils/` (pomoćne funkcije idu u `lib/`) ni `constants/`
+(vrednosti idu u `config/` ili kao lokalni `as const`).
+
+Folderi koji se kreiraju tek kad im se pojavi sadržaj: `services/`, `hooks/`,
+`types/`, `features/`, `providers/`, `fake-api/`. Pragovi su u `docs/architecture.md`.
+
+## Odgovornosti i zavisnosti
+
+Komponente drže samo UI. Hook-ovi drže ponovo upotrebljivu stateful logiku.
+Servisi drže HTTP komunikaciju i poslovnu logiku. Zod šeme se kolociraju sa
+mestom upotrebe.
+
+Zavisnosti teku ka unutra: UI → hook-ovi/servisi → `lib/`. Kružne zavisnosti su
+zabranjene. Feature ne uvozi iz drugog feature-a — deljeno se promoviše u sloj.
+
+## Granica prema backendu
+
+Next.js server sloj je dozvoljen i preporučen: Server Components, Server Actions i
+tanki Route Handleri. Starter **ne** implementira bazu, migracije ni domenski
+backend — to je projektna odluka.

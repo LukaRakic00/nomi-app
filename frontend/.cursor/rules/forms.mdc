@@ -1,0 +1,47 @@
+---
+description: Forme sa React Hook Form, Zod validacijom i obradom serverskih grešaka
+globs: **/*form*.tsx,**/*.schema.ts
+alwaysApply: false
+---
+
+# Forme
+
+Standard je React Hook Form + Zod + shadcn `Form` komponente.
+
+## Šema
+
+- Zod šema je jedini izvor istine za validaciju. Ne dupliraj pravila u UI-ju.
+- Šema stoji u `*.schema.ts` pored forme koja je koristi.
+- Tip se izvodi iz šeme: `type LoginValues = z.infer<typeof loginSchema>`.
+- Validacione poruke se pišu na srpskom.
+
+```ts
+export const loginSchema = z.object({
+  email: z.string().email("Unesite ispravnu email adresu."),
+  password: z.string().min(8, "Lozinka mora imati najmanje 8 karaktera."),
+});
+```
+
+## Komponenta
+
+- `useForm` sa `resolver: zodResolver(schema)`.
+- Polja se sastavljaju od shadcn `Form`, `FormField`, `FormItem`, `FormLabel`,
+  `FormControl` i `FormMessage` — poruke se ne renderuju ručno.
+- Dugme za slanje je `disabled` dok `formState.isSubmitting` traje.
+- Forma prima `onSubmit` kao prop kad je namenjena ponovnoj upotrebi; ne poziva
+  servis direktno iz UI komponente.
+
+## Serverske greške
+
+Greška sa servera se mapira na formu, ne prikazuje kao sirov tekst:
+
+- greška vezana za polje → `form.setError("email", { message })`
+- opšta greška → `form.setError("root", { message: getUserMessage(error) })`
+
+`root` greška se prikazuje iznad ili ispod polja, a poruka uvek dolazi iz
+`getUserMessage` (vidi `errors.mdc`).
+
+## Pristupačnost
+
+Svako polje ima `FormLabel`. Greška mora biti povezana sa poljem — shadcn
+`FormMessage` to rešava kroz `aria-describedby`, zato ga koristi.

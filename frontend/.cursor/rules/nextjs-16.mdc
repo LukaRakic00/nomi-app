@@ -1,0 +1,37 @@
+---
+description: Prelomne izmene Next.js 16 koje se razlikuju od Next.js 14 i 15
+alwaysApply: true
+---
+
+# Next.js 16 — prelomne izmene
+
+Ažuriraj ovaj fajl pri sledećem major upgrade-u.
+
+## Async Request API-ji
+
+`params`, `searchParams`, `cookies()`, `headers()` i `draftMode()` su **isključivo
+async**. Sinhroni pristup je uklonjen i ruši build.
+
+```tsx
+export default async function Page({ params }: PageProps<"/[slug]">) {
+  const { slug } = await params;
+}
+```
+
+## `middleware.ts` → `proxy.ts`
+
+Fajl je `proxy.ts`, izvezena funkcija je `proxy`. Runtime je Node.js i ne može se
+menjati. Proxy sme samo da rewrite-uje, redirect-uje ili menja header-e — ne vraća
+response body.
+
+## Keširanje i tooling
+
+- `revalidateTag(tag, profil)` — drugi argument je obavezan; `updateTag()` u Server Actions.
+- `cacheComponents: true` uz `"use cache"` zamenjuje `experimental.ppr`, `dynamicIO`
+  i `useCache`. Nije uključeno u starteru — vidi `docs/optional-modules.md`.
+- `runtime = "edge"` nije podržan uz Cache Components.
+- `next lint` je uklonjen → `eslint .`. Opcija `eslint` u `next.config` ne postoji.
+- Turbopack je podrazumevani bundler.
+- Tipovi ruta (`PageProps`, `LayoutProps`) se generišu, pa `tsc --noEmit` zahteva
+  prethodni `next typegen` — zato je `bun run typecheck` upravo taj niz.
+- `typescript-eslint` ne podržava TS 7 — projekat je na TS 5.9 (`lessons-learned.mdc`).

@@ -1,0 +1,36 @@
+---
+description: Radni tok agenta, stil koda i definicija gotovog posla
+alwaysApply: true
+---
+
+# Core
+
+Univerzalni frontend starter. Stack: Next.js 16 (App Router), React 19, TypeScript,
+Tailwind v4, shadcn/ui, Zod. Paket menadžer je **bun**.
+
+## Radni tok
+
+1. Pre izmene pročitaj postojeći kod u zoni izmene i `docs/architecture.md`.
+2. Pre nove komponente, hook-a ili helper-a pretraži projekat i `components/ui/`.
+   Ako rešenje postoji — koristi ga. Duplikat je greška.
+3. Ne dodavaj dependency bez saglasnosti. Prvo proveri native rešenje i
+   biblioteke koje već postoje u projektu.
+4. Ne menjaj strukturu foldera ni arhitekturu bez saglasnosti.
+5. Prati obrasce iz `docs/conventions.md` umesto uvođenja novih.
+6. Za izmenu koja dira više od tri fajla ili menja arhitekturu — prvo predloži plan.
+7. Ne kreiraj folder dok u njemu ne postoji fajl sa sadržajem. Bez `.gitkeep`.
+
+## Stil koda
+
+- Čiste funkcije gde je moguće; sporedne efekte drži na ivicama (servisi, hook-ovi).
+- Nikada ne mutiraj primljene objekte ni nizove — vraćaj nove vrednosti.
+- Male funkcije sa jednom odgovornošću; kompozicija umesto nasleđivanja.
+- Komentar objašnjava nameru ili ograničenje, nikada šta kod radi.
+
+## Posao je gotov kada
+
+- `bun run check` prolazi (typecheck + lint + format)
+- `bun run build` prolazi
+- nema `console.log`, zakomentarisanog koda, nekorišćenih importa ni mrtvog koda
+- nema `any`, `@ts-ignore` ni praznog `catch`
+- nema `TODO` / `FIXME` bez dogovora

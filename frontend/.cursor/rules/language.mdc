@@ -1,0 +1,27 @@
+---
+description: Srpski jezik za UI, poruke, komentare i dokumentaciju
+alwaysApply: true
+---
+
+# Jezik projekta
+
+Primarni jezik aplikacije i dokumentacije je **srpski** (korisnici u Srbiji).
+
+> Ovo je jedino pravilo vezano za lokalizaciju. Ako novi projekat nije na srpskom,
+> promeni ga pre pisanja koda.
+
+**Na srpskom:** svi UI tekstovi (naslovi, labele, dugmad, placeholder-i),
+validacione poruke, poruke o greškama, empty/loading/success poruke, komentari u
+kodu, Cursor pravila i sadržaj `docs/`.
+
+**Na engleskom:** nazivi tehnologija (React, Next.js, Zod), nazivi programskih
+konstrukcija (hook, service, Server Action), nazivi promenljivih, funkcija,
+fajlova i foldera, i commit poruke (vidi `git.mdc`).
+
+Ispravno: `<Button>Sačuvaj</Button>`, `// Prag posle kojeg servis prekida pokušaje.`
+Neispravno: `<Button>Save</Button>`, `// Loads the list of tours`.
+
+UI tekstovi stoje inline u komponenti. i18n biblioteka se uvodi tek kad projekat
+zaista postane višejezičan (vidi `docs/optional-modules.md`).
+
+Ako pronađeš UI tekst ili komentar na engleskom — prevedi ga bez promene značenja.

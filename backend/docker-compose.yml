@@ -1,0 +1,21 @@
+services:
+  elm-backend:
+    build: .
+    container_name: elm-backend
+    restart: unless-stopped
+    ports:
+      - "100.81.124.18:8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: 8081
+      DB_HOST: elm-postgres
+      DB_PORT: 5432
+      DB_NAME: elm_example
+      DB_USER: elm
+      DB_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - elm-net
+
+networks:
+  elm-net:
+    external: true

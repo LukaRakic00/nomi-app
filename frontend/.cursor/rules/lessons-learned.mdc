@@ -1,0 +1,60 @@
+---
+description: Lekcije iz grešaka specifičnih za ovaj projekat. Pročitaj kad debaguješ neobično ponašanje ili kad se greška ponavlja.
+alwaysApply: false
+---
+
+# Lessons Learned
+
+Baza znanja **samo za greške specifične za ovaj projekat**. Opšte smernice
+pripadaju odgovarajućim `.mdc` fajlovima — ne ovde.
+
+## Kada dodati lekciju
+
+Samo ako je ispunjeno oboje:
+
+1. ista greška se ponovila u ovom projektu, i
+2. nije pokrivena opštim pravilom u drugom `.mdc` fajlu.
+
+Ako je lekcija zapravo opšta smernica — predloži je za odgovarajući `.mdc`.
+
+## Ograničenja (obavezna, sprečavaju da fajl postane dump)
+
+- Najviše **10 unosa**.
+- Najviše **15 linija po unosu**.
+- Format je uvek `Problem` + `Ispravan pristup`.
+- Kada lekcija postane opšta — promoviši je u odgovarajući `.mdc` i **obriši odavde**.
+- Kada se dostigne 10 unosa, najstariji se mora promovisati ili obrisati pre
+  dodavanja novog.
+
+## Procedura
+
+Kad otkriješ bug uzrokovan generisanim kodom: objasni uzrok, predloži trajno
+pravilo, pitaj gde unos treba da ide, i tek nakon odobrenja dodaj ga.
+
+## Lekcije
+
+### TypeScript 7 obara ESLint
+
+**Problem**
+
+`typescript@7.x` prolazi `tsc --noEmit` i `next build`, ali `eslint .` pada sa
+`typescript-eslint does not support TS 7.0`. `eslint-config-next` uvozi
+`typescript-eslint`, pa lint puca odmah pri učitavanju konfiga.
+
+**Ispravan pristup**
+
+Projekat je pinovan na `typescript@^5.9`. Ne nadograđuj na 7.x dok
+`typescript-eslint` ne objavi podršku. Pri pokušaju nadogradnje obavezno pokreni
+`bun run check`, ne samo `bun run build`.
+
+## Šablon
+
+### Naslov lekcije
+
+**Problem**
+
+...
+
+**Ispravan pristup**
+
+...

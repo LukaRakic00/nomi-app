@@ -1,0 +1,33 @@
+---
+description: Obrada grešaka, poruke korisniku i obavezna loading/empty/error stanja
+alwaysApply: true
+---
+
+# Greške i stanja
+
+## Pravila
+
+- Prazan `catch` je zabranjen; `try/catch` oko svake asinhrone operacije koja
+  može da padne.
+- Ne gubi originalnu grešku — prosledi je kroz `cause`.
+- Koristi tipove iz `lib/errors.ts` (`AppError`, `HttpError`, `ValidationError`);
+  ne uvodi ad-hoc oblike greške.
+- Korisnička poruka se dobija **isključivo** iz `getUserMessage(error)`.
+
+## Publika greške
+
+Korisnik dobija kratku, razumljivu poruku na srpskom. Developer dobija uzrok,
+operaciju i identifikatore — kroz `cause`.
+
+Korisniku nikada ne prikazuj stack trace, `error.digest`, telo HTTP odgovora ni
+poruku koju je poslao server. Ne loguj tokene, lozinke ni lične podatke.
+
+## Obavezna stanja
+
+Svaki prikaz podataka pokriva tri slučaja:
+
+- **loading** — `Skeleton` iz `components/ui/skeleton`
+- **empty** — `EmptyState` iz `components/empty-state`
+- **error** — poruka iz `getUserMessage` i akcija za ponovni pokušaj
+
+U klijentskim akcijama greška se prikazuje sa `toast.error(getUserMessage(error))`.

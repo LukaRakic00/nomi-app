@@ -1,0 +1,47 @@
+---
+description: Servisi, HTTP klijent, Zod validacija odgovora i mock podaci
+globs: services/**,features/**/services/**,lib/http.ts,**/*.schema.ts
+alwaysApply: false
+---
+
+# Data layer
+
+API sloj je **opcion**. Projekat bez backenda ga nikad ne uvodi, a `lib/http.ts`
+i `NEXT_PUBLIC_API_URL` se u tom slučaju mogu obrisati.
+
+## Servisi
+
+- Sva HTTP komunikacija ide kroz servise. `fetch` se poziva samo u `lib/http.ts`.
+- Komponenta nikada ne zove `fetch` — zove servis.
+- Jedan servis pokriva jedan domen; jedna funkcija pokriva jednu operaciju.
+- Servis vraća gotov, validiran domenski tip — ne sirovi odgovor.
+- Uvek `async/await`.
+
+## Validacija odgovora
+
+Odgovor servera se validira Zod šemom pre nego što napusti servis. Šema stoji u
+istom fajlu kao servis koji je koristi, a tip se izvodi iz nje.
+
+```ts
+const userSchema = z.object({ id: z.string(), name: z.string() });
+
+export type User = z.infer<typeof userSchema>;
+
+export async function getUser(id: string): Promise<User> {
+  return request(`/users/${id}`, { schema: userSchema });
+}
+```
+
+`request` iz `lib/http.ts` sam baca `HttpError` na loš status i `ValidationError`
+kad odgovor ne odgovara šemi — ne dupliraj tu logiku.
+
+## Mock podaci
+
+Projekat bez backenda stavlja mock podatke u `fake-api/` i pristupa im **kroz
+servis sa istim potpisom** kao pravi API. UI nikada ne uvozi `fake-api` direktno.
+Time prelaz sa mock-a na pravi API ne dira ni jednu komponentu.
+
+## Greške
+
+Servis ne hvata greške da bi ih sakrio. Pušta tipizovanu grešku dalje; poziva ju
+obrađuje sloj koji ume da je prikaže (vidi `errors.mdc`).

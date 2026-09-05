@@ -1,0 +1,70 @@
+---
+description: shadcn/ui, Tailwind v4, responsive dizajn i pristupačnost
+globs: **/*.tsx,app/globals.css
+alwaysApply: false
+---
+
+# UI
+
+## Pre kreiranja komponente
+
+1. Proveri da li već postoji u projektu.
+2. Proveri da li postoji odgovarajuća shadcn/ui komponenta.
+3. Tek onda razmisli o novoj.
+
+Ne reinventiši ono što shadcn/ui pruža: Button, Card, Dialog, Sheet, DropdownMenu,
+Popover, Tooltip, Input, Select, Tabs, Accordion, Skeleton, Badge, Avatar.
+
+## Instalacija shadcn komponenti
+
+Paket menadžer je **bun**. Uvek:
+
+```bash
+bunx --bun shadcn@latest add button
+bunx --bun shadcn@latest add input sheet
+```
+
+Zabranjeno: `npx shadcn`, `npm` / `pnpm` / `yarn` za shadcn, i ručno kopiranje
+shadcn fajlova umesto CLI-ja.
+
+Generisane komponente žive u `components/ui/` i tamo ne idu ručno pisane komponente.
+
+## Tailwind v4
+
+- Konfiguracija je CSS-first — **`tailwind.config.ts` ne postoji**.
+- Dizajn tokeni su u `app/globals.css`: `:root` i `.dark` sa OKLCH vrednostima,
+  mapirani kroz `@theme inline` sa `--color-*` prefiksom.
+- Animacije dolaze iz `tw-animate-css`, ne iz `tailwindcss-animate`.
+- Koristi `size-*` umesto `w-* h-*` kad su iste vrednosti.
+- Klase kombinuj kroz `cn()` iz `lib/utils`.
+- Stilovi su Tailwind utility klase. CSS se piše samo u `globals.css` za tokene.
+- Boje uzimaj iz semantičkih tokena (`bg-background`, `text-muted-foreground`),
+  ne kroz sirove vrednosti tipa `bg-zinc-900`.
+
+## Responsive
+
+- Mobile first, responzivno po podrazumevanom.
+- Svaka komponenta radi na mobilnom, tabletu i desktopu.
+- Kada se desktop i mobilna verzija značajno razlikuju — odvoji komponente:
+
+```
+components/navbar/
+├── navbar.tsx          orkestracija / izbor varijante
+├── navbar-desktop.tsx
+└── navbar-mobile.tsx
+```
+
+Ne gurati bitno različite layout-e u jednu komponentu sa ogromnim `className` uslovima.
+
+## Pristupačnost
+
+- Semantički HTML: `header`, `nav`, `main`, `footer`, `button` za akcije.
+- Sve interaktivno dostupno tastaturom, sa vidljivim focus stanjem.
+- Svaki input ima povezan `Label`; ikonica-dugme ima `aria-label`.
+- `alt` tekst za slike; dekorativne slike dobijaju `alt=""`.
+- Jedan `h1` po stranici i logična hijerarhija naslova.
+- Dovoljan kontrast — koristi semantičke tokene koji ga garantuju u obe teme.
+
+## Dizajn
+
+Minimalan i čist, dosledan vizuelni jezik kroz celu aplikaciju.

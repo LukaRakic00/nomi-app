@@ -1,0 +1,28 @@
+---
+description: Frontend bezbednosni minimum i granica prema backend odgovornostima
+alwaysApply: true
+---
+
+# Bezbednost
+
+## Šta frontend sprovodi
+
+- Tajne nikada ne ulaze u klijentski bundle; na klijentu postoje isključivo
+  `NEXT_PUBLIC_*` promenljive.
+- `process.env` se čita samo u `lib/env.ts`, `lib/env.server.ts` i `config/site.ts`.
+- Server-only moduli počinju sa `import "server-only"` — slučajan import iz
+  klijentskog koda tada obara build.
+- Svi podaci sa mreže se validiraju Zod-om pre upotrebe. Ne veruj odgovoru servera.
+- `dangerouslySetInnerHTML` samo kada nema alternative i kada je sadržaj sanitizovan.
+- Tokeni ne idu u `localStorage` — koristi httpOnly cookie koji postavlja server.
+- Tajne se ne loguju i ne pojavljuju u porukama grešaka.
+- `remotePatterns` za `next/image` drži na minimumu potrebnih domena.
+
+## Šta samo backend može da garantuje
+
+Autentifikacija, autorizacija, validacija na serveru, rate limiting i vlasništvo
+nad podacima.
+
+Klijentska provera je **isključivo UX**, nikada bezbednosna granica. Skrivanje
+dugmeta nije zaštita. Ako backend za nešto od navedenog ne postoji, to se
+dokumentuje kao otvoren zahtev — nikada ne simulira na klijentu.
